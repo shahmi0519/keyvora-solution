@@ -7,13 +7,33 @@ const NAV_LINKS = ["About", "Services", "Work", "Contact"];
 
 const SERVICES = [
   {
+    icon: "🌐",
+    title: "Web Design & Development",
+    tag: "Web Presence",
+    tagColor: "#1A5C3A",
+    tagBg: "#D6F5E6",
+    accent: "#00C47A",
+    featured: true,
+    desc: "Stunning static and dynamic websites — from lightning-fast portfolios and landing pages to full-featured React web apps with backend APIs. Every pixel intentional, every interaction smooth.",
+    outcomes: [
+      "Static sites: HTML/CSS/JS — blazing fast, SEO-ready",
+      "Dynamic apps: React + Vite with state, routing, animations",
+      "Full-stack: FastAPI backend + React frontend, deployed",
+      "Mobile-first responsive design on every build",
+      "Deployed to Vercel, Netlify, or your own server",
+    ],
+    techIcons: ["React", "Vite", "Tailwind", "HTML5", "CSS3", "FastAPI", "Vercel"],
+  },
+  {
     icon: "🔍",
     title: "RAG Pipeline Engineering",
     tag: "Knowledge Systems",
     tagColor: "#0C447C",
     tagBg: "#E6F1FB",
+    accent: "#185FA5",
     desc: "Production-grade Retrieval-Augmented Generation systems with hybrid vector + keyword search, intelligent chunking, and FAISS/BM25 retrieval. Zero-hallucination data querying over proprietary knowledge bases.",
     outcomes: ["90%+ retrieval accuracy", "Hybrid semantic + keyword search", "Sub-second query latency"],
+    techIcons: ["LangChain", "FAISS", "BM25", "Python", "Vector DBs"]
   },
   {
     icon: "⚡",
@@ -21,8 +41,10 @@ const SERVICES = [
     tag: "Workflow Automation",
     tagColor: "#3B6D11",
     tagBg: "#EAF3DE",
+    accent: "#3B6D11",
     desc: "Autonomous multi-agent workflows using LangChain that automate complex, multi-step business operations — from data ingestion to decision-making — with full observability and fallback logic.",
     outcomes: ["End-to-end agentic workflows", "LangChain orchestration", "Intent-based routing"],
+    techIcons: ["LangChain", "CrewAI", "Python", "FastAPI", "Automation"]
   },
   {
     icon: "👁",
@@ -30,8 +52,10 @@ const SERVICES = [
     tag: "Visual Intelligence",
     tagColor: "#854F0B",
     tagBg: "#FAEEDA",
+    accent: "#854F0B",
     desc: "Real-time multi-modal vision pipelines combining CNNs, YOLO, Vision Transformers, and sensor fusion. Award-winning research-grade implementations deployed to edge devices.",
     outcomes: ["93.42% accuracy on edge", "113ms inference latency", "Multi-modal sensor fusion"],
+    techIcons: ["OpenCV", "PyTorch", "TensorFlow", "YOLO", "Edge Computing"]
   },
   {
     icon: "💬",
@@ -39,8 +63,10 @@ const SERVICES = [
     tag: "Full-Stack AI",
     tagColor: "#533AB7",
     tagBg: "#EEEDFE",
+    accent: "#533AB7",
     desc: "Full-stack production AI applications — FastAPI backends, React frontends, LLM integrations, and cloud deployment on AWS EC2 + Vercel. Built to serve real users, not just demos.",
     outcomes: ["FastAPI + React stack", "AWS EC2 + Vercel deployment", "Production-grade reliability"],
+    techIcons: ["React", "FastAPI", "Docker", "AWS EC2", "LLM APIs"]
   },
   {
     icon: "✍️",
@@ -48,8 +74,10 @@ const SERVICES = [
     tag: "Thought Leadership",
     tagColor: "#993556",
     tagBg: "#FBEAF0",
+    accent: "#993556",
     desc: "Deep-dive technical writing on MLOps, vector databases, RAG architectures, and LLM systems. Content that builds brand authority and establishes engineering credibility with technical audiences.",
     outcomes: ["Architecture-level depth", "MLOps & LLM coverage", "Publication-ready quality"],
+    techIcons: ["Medium", "Technical Writing", "MLOps", "Architectures"]
   },
 ];
 
@@ -65,7 +93,6 @@ const PROJECTS = [
     solution: "Agentic RAG chatbot with 5-category intent classification, hybrid FAISS+BM25 retrieval over 25 landmark papers, and two-layer memory (session + cross-session SQLite).",
     impact: "Source-attributed answers with page-level citations. Zero unnecessary vector searches via intelligent routing.",
     stack: ["LangChain", "FAISS", "BM25", "Gemini 2.5", "FastAPI", "AWS EC2", "React", "Vercel"],
-    // link: "https://arxiv-research-assistant.vercel.app",
     github: "https://github.com/shahmi0519/ArXiv-research-assistant",
     demo: "https://drive.google.com/file/d/1PNken4Ar-Uwc8To4LbdgiZYR5ItM2KTu/view?usp=sharing",
   },
@@ -80,7 +107,6 @@ const PROJECTS = [
     solution: "6-stage pipeline: PDF parsing → keyword extraction → semantic similarity via all-MiniLM-L6-v2 → Gemini 2.5 structured analysis → weighted scoring engine → actionable recommendations.",
     impact: "Multi-dimensional scoring across 5 dimensions, semantic keyword matching, and specific skill gap detection with improvement suggestions.",
     stack: ["Gemini 2.5 Flash", "all-MiniLM-L6-v2", "FastAPI", "pdfplumber", "React", "Tailwind"],
-    // link: "#",
     github: "https://github.com/shahmi0519/ai_resume_analyzer",
     demo: "https://drive.google.com/file/d/1MI_z-y1Pfm1Fnj22SHRIGFb-Chi4ovv_/view?usp=sharing",
   },
@@ -121,7 +147,187 @@ function Reveal({ children, delay = 0, className = "" }) {
   );
 }
 
+function WebDevCard({ s }) {
+  const [hovered, setHovered] = useState(false);
+  if (!s) return null;
+
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        position: "relative", overflow: "hidden",
+        border: `1px solid rgba(0,196,122,${hovered ? "0.5" : "0.2"})`,
+        background: hovered
+          ? "linear-gradient(135deg, rgba(0,196,122,0.08) 0%, rgba(9,9,11,1) 60%)"
+          : "linear-gradient(135deg, rgba(0,196,122,0.04) 0%, rgba(9,9,11,1) 60%)",
+        transition: "all 0.4s ease",
+        cursor: "default",
+      }}
+    >
+      <div style={{
+        position: "absolute", top: -60, right: -60, width: 220, height: 220, borderRadius: "50%",
+        background: `radial-gradient(circle, rgba(0,196,122,${hovered ? "0.18" : "0.08"}) 0%, transparent 70%)`,
+        transition: "all 0.4s ease", pointerEvents: "none",
+      }} />
+ 
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+        {/* LEFT */}
+        <div style={{ padding: "44px 40px", borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+            <div style={{
+              width: 48, height: 48, borderRadius: "50%",
+              background: "rgba(0,196,122,0.12)", border: "1px solid rgba(0,196,122,0.3)",
+              display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22,
+            }}>🌐</div>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{
+                  background: "#D6F5E6", color: "#1A5C3A",
+                  fontSize: 10, fontWeight: 700, letterSpacing: "0.08em",
+                  textTransform: "uppercase", padding: "3px 8px", borderRadius: 2
+                }}>Web Presence</span>
+                <span style={{
+                  background: "rgba(0,196,122,0.15)", color: "#00C47A",
+                  fontSize: 10, fontWeight: 700, letterSpacing: "0.08em",
+                  textTransform: "uppercase", padding: "3px 8px", borderRadius: 2,
+                  border: "1px solid rgba(0,196,122,0.3)"
+                }}>✦ New Service</span>
+              </div>
+            </div>
+          </div>
+ 
+          <h3 style={{
+            fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 30,
+            color: "#FAFAF9", marginBottom: 14, letterSpacing: "-0.02em", lineHeight: 1.1
+          }}>
+            Web Design &<br />
+            <span style={{ color: "#00C47A" }}>Development</span>
+          </h3>
+ 
+          <p style={{ fontSize: 14, color: "#A1A09A", lineHeight: 1.75, fontWeight: 300, marginBottom: 28 }}>
+            From blazing-fast static landing pages to full-featured dynamic React applications with backend APIs. Every site is mobile-first, performance-optimized, and deployed — not just designed.
+          </p>
+ 
+          <div style={{ display: "flex", gap: 12, marginBottom: 28 }}>
+            {[["Static", "HTML · CSS · JS · SEO-ready"], ["Dynamic", "React · Vite · API · Realtime"]].map(([type, sub]) => (
+              <div key={type} style={{
+                flex: 1, padding: "12px 14px",
+                background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
+              }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#00C47A", marginBottom: 4 }}>{type}</div>
+                <div style={{ fontSize: 11, color: "#71706A" }}>{sub}</div>
+              </div>
+            ))}
+          </div>
+ 
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {s?.techIcons?.map(t => (
+              <span key={t} style={{
+                background: "rgba(0,196,122,0.08)", color: "#00C47A",
+                border: "1px solid rgba(0,196,122,0.2)",
+                fontSize: 11, padding: "3px 10px", borderRadius: 2, fontWeight: 500
+              }}>{t}</span>
+            ))}
+          </div>
+        </div>
+ 
+        {/* RIGHT */}
+        <div style={{ padding: "44px 40px" }}>
+          <div style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 20 }}>What's included</div>
+ 
+          {s?.outcomes?.map((o, i) => (
+            <div key={i} style={{
+              display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16,
+              padding: "12px 14px",
+              background: hovered ? "rgba(0,196,122,0.04)" : "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.05)",
+              transition: "all 0.3s ease",
+            }}>
+              <span style={{ color: "#00C47A", fontSize: 14, fontWeight: 700, marginTop: 1, flexShrink: 0 }}>→</span>
+              <span style={{ fontSize: 13, color: "#A1A09A", lineHeight: 1.5 }}>{o}</span>
+            </div>
+          ))}
+ 
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginTop: 24 }}>
+            {[["100%", "Mobile First"], ["<1s", "Load Time"], ["∞", "Scalable"]].map(([n, l]) => (
+              <div key={l} style={{
+                background: "rgba(0,196,122,0.06)", border: "1px solid rgba(0,196,122,0.15)",
+                padding: "14px 12px", textAlign: "center"
+              }}>
+                <div style={{ fontFamily: "'Syne', sans-serif", fontSize: 20, fontWeight: 800, color: "#00C47A" }}>{n}</div>
+                <div style={{ fontSize: 10, color: "#71706A", marginTop: 4, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.06em" }}>{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+// function ServicePanel({ s }) {
+//   if (!s) return null;
+//   return (
+//     <div style={{ padding: 48, animation: "fadeIn 0.3s ease" }}>
+//       <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }`}</style>
+//       <div style={{ fontSize: 40, marginBottom: 20 }}>{s.icon}</div>
+//       <span style={{ display: "inline-block", background: s.tagBg, color: s.tagColor, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 2, marginBottom: 20 }}>
+//         {s.tag}
+//       </span>
+//       <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 700, color: "#FAFAF9", marginBottom: 20 }}>{s.title}</h3>
+//       <p style={{ fontSize: 15, color: "#A1A09A", lineHeight: 1.8, marginBottom: 32, fontWeight: 300 }}>{s.desc}</p>
+      
+//       <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 24 }}>
+//         <div style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 16 }}>What you get</div>
+//         {s?.outcomes?.map((o, i) => (
+//           <div key={i} style={{ fontSize: 14, color: "#A1A09A", marginBottom: 10, display: "flex", alignItems: "center" }}>
+//             <span style={{ color: s.accent || "#378ADD", marginRight: 10, fontWeight: 700 }}>→</span>{o}
+//           </div>
+//         ))}
+//       </div>
+
+//       <div style={{ marginTop: 28, display: "flex", flexWrap: "wrap", gap: 8 }}>
+//         {s?.techIcons?.map(t => (
+//           <span key={t} style={{ background: "rgba(255,255,255,0.06)", color: "#A1A09A", fontSize: 12, padding: "4px 10px", borderRadius: 2 }}>{t}</span>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
+
+function ServicePanel({ s }) {
+  if (!s) return null;
+  return (
+    <div style={{ padding: 48, animation: "fadeIn 0.3s ease" }}>
+      <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }`}</style>
+      <div style={{ fontSize: 40, marginBottom: 20 }}>{s.icon}</div>
+      <span style={{ display: "inline-block", background: s.tagBg, color: s.tagColor, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 2, marginBottom: 20 }}>
+        {s.tag}
+      </span>
+      <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 700, color: "#FAFAF9", marginBottom: 20 }}>{s.title}</h3>
+      <p style={{ fontSize: 15, color: "#A1A09A", lineHeight: 1.8, marginBottom: 32, fontWeight: 300 }}>{s.desc}</p>
+      
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 24 }}>
+        <div style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 16 }}>What you get</div>
+        {(s.outcomes || []).map((o, i) => (
+          <div key={i} style={{ fontSize: 14, color: "#A1A09A", marginBottom: 10, display: "flex", alignItems: "center" }}>
+            <span style={{ color: s.accent || "#378ADD", marginRight: 10, fontWeight: 700 }}>→</span>{o}
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginTop: 28, display: "flex", flexWrap: "wrap", gap: 8 }}>
+        {(s.techIcons || []).map(t => (
+          <span key={t} style={{ background: "rgba(255,255,255,0.06)", color: "#A1A09A", fontSize: 12, padding: "4px 10px", borderRadius: 2 }}>{t}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Portfolio() {
+  const nonFeaturedServices = SERVICES.filter(s => !s.featured);
   const [activeService, setActiveService] = useState(0);
   const [activeProject, setActiveProject] = useState(0);
   const [formData, setFormData] = useState({ name: "", email: "", service: "", message: "" });
@@ -134,12 +340,11 @@ export default function Portfolio() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus("sending");
 
     try {
-      // Replace 'YOUR_FORM_ID' with the actual ID or URL you copied from Formspree
       const response = await fetch("https://formspree.io/f/mbdbyodl", {
         method: "POST",
         headers: {
@@ -151,7 +356,6 @@ const handleSubmit = async (e) => {
 
       if (response.ok) {
         setFormStatus("sent");
-        // Reset the form data values back to empty strings
         setFormData({ name: "", email: "", service: "", message: "" });
       } else {
         setFormStatus("idle");
@@ -289,8 +493,6 @@ const handleSubmit = async (e) => {
           <Reveal delay={150}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: "rgba(255,255,255,0.06)" }}>
               {[
-                // { label: "Degree", value: "BSc Hons EIE", sub: "University of Ruhuna" },
-                // { label: "GPA", value: "3.5 / 4.0", sub: "Second Class Upper" },
                 { label: "Recognition", value: "1st Place", sub: "IEEE FYP Arena" },
                 { label: "Core Focus", value: "AI / MLOps", sub: "Production Systems" },
                 { label: "Primary Stack", value: "Python + React", sub: "FastAPI + LangChain" },
@@ -322,38 +524,43 @@ const handleSubmit = async (e) => {
             </div>
           </Reveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 0, border: "1px solid rgba(255,255,255,0.07)" }}>
-            <div style={{ borderRight: "1px solid rgba(255,255,255,0.07)" }}>
-              {SERVICES.map((s, i) => (
-                <button key={i} className={`service-btn ${activeService === i ? "active" : ""}`} onClick={() => setActiveService(i)}>
-                  <div className="svc-title">{s.title}</div>
-                  <div className="svc-tag-label" style={{ color: activeService === i ? "#378ADD" : "#555550" }}>{s.tag}</div>
-                </button>
-              ))}
+          {/* Featured Web Dev card */}
+          <Reveal delay={80}>
+            <WebDevCard s={SERVICES.find(s => s.featured)} />
+          </Reveal>
+
+          {/* Divider with label */}
+          <Reveal delay={120}>
+            <div style={{ display: "flex", alignItems: "center", gap: 16, margin: "40px 0 32px" }}>
+              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.07)" }} />
+              <span style={{ fontSize: 11, color: "#555550", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>AI & ML Services</span>
+              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.07)" }} />
             </div>
-            <div style={{ padding: 48 }}>
-              {(() => {
-                const s = SERVICES[activeService];
-                return (
-                  <div key={activeService} style={{ animation: "fadeIn 0.3s ease" }}>
-                    <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }`}</style>
-                    <div style={{ fontSize: 40, marginBottom: 20 }}>{s.icon}</div>
-                    <span className="tag" style={{ background: s.tagBg, color: s.tagColor, marginBottom: 20, display: "inline-block" }}>{s.tag}</span>
-                    <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 700, color: "#FAFAF9", marginBottom: 20 }}>{s.title}</h3>
-                    <p style={{ fontSize: 15, color: "#A1A09A", lineHeight: 1.8, marginBottom: 32, fontWeight: 300 }}>{s.desc}</p>
-                    <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 24 }}>
-                      <div style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 16 }}>What you get</div>
-                      {s.outcomes.map((o, i) => (
-                        <div key={i} style={{ fontSize: 14, color: "#A1A09A", marginBottom: 10, display: "flex", alignItems: "center" }}>
-                          <span style={{ color: "#378ADD", marginRight: 10, fontWeight: 600 }}>→</span>{o}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })()}
+          </Reveal>
+
+          {/* Non-featured services tab layout */}
+          <Reveal delay={160}>
+            <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 0, border: "1px solid rgba(255,255,255,0.07)" }}>
+              <div style={{ borderRight: "1px solid rgba(255,255,255,0.07)" }}>
+                {nonFeaturedServices.map((s, i) => (
+                  <button
+                    key={i}
+                    className={`service-btn ${activeService === i ? "active" : ""}`}
+                    onClick={() => setActiveService(i)}
+                    style={{ borderLeftColor: activeService === i ? (s.accent || "#378ADD") : "transparent" }}
+                  >
+                    <div className="svc-title">{s.title}</div>
+                    <div className="svc-tag" style={{ color: activeService === i ? (s.accent || "#378ADD") : "#555550" }}>{s.tag}</div>
+                  </button>
+                ))}
+              </div>
+              {nonFeaturedServices[activeService] ? (
+                <ServicePanel key={activeService} s={nonFeaturedServices[activeService]} />
+              ) : (
+                <div style={{ padding: 48, color: "#71706A" }}>Select an option to view details.</div>
+              )}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -375,6 +582,7 @@ const handleSubmit = async (e) => {
 
           {(() => {
             const p = PROJECTS[activeProject];
+            if (!p) return null;
             return (
               <div key={activeProject} style={{ border: "1px solid rgba(255,255,255,0.07)", borderTop: "none", padding: 48, animation: "fadeIn 0.3s ease" }}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64 }}>
@@ -404,23 +612,18 @@ const handleSubmit = async (e) => {
                     <div style={{ background: "#0D0D10", border: "1px solid rgba(255,255,255,0.07)", padding: 32, marginBottom: 24 }}>
                       <div style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 20 }}>Tech Stack</div>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                        {p.stack.map(t => <span key={t} className="stack-pill">{t}</span>)}
+                        {p.stack?.map(t => <span key={t} className="stack-pill">{t}</span>)}
                       </div>
                     </div>
 
                     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                      {p.demo !== "#" && (
+                      {p.demo !== "#" && p.demo && (
                         <a href={p.demo} target="_blank" rel="noopener noreferrer" style={{ display: "block", background: "#185FA5", color: "#FAFAF9", textAlign: "center", padding: "14px", fontSize: 13, fontWeight: 600, letterSpacing: "0.04em" }}>
                           ▶ Watch Demo
                         </a>
                       )}
-                      <div style={{ display: "flex",flexDirection: "column", gridTemplateColumns: p.link !== "#" ? "1fr 1fr" : "1fr", gap: 12 }}>
-                        {/* {p.link !== "#" && (
-                          <a href={p.link} target="_blank" rel="noopener noreferrer" style={{ display: "block", background: "transparent", border: "1px solid rgba(255,255,255,0.15)", color: "#FAFAF9", textAlign: "center", padding: "14px", fontSize: 13, fontWeight: 600, letterSpacing: "0.04em" }}>
-                            Live Site ↗
-                          </a>
-                        )} */}
-                        {p.github !== "#" && (
+                      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                        {p.github !== "#" && p.github && (
                           <a href={p.github} target="_blank" rel="noopener noreferrer" style={{ display: "block", background: "transparent", border: "1px solid rgba(255,255,255,0.15)", color: "#FAFAF9", textAlign: "center", padding: "14px", fontSize: 13, fontWeight: 600, letterSpacing: "0.04em" }}>
                             GitHub →
                           </a>
@@ -482,30 +685,31 @@ const handleSubmit = async (e) => {
               ))}
             </div>
           </Reveal>
-
+    
           <Reveal delay={150}>
             {formStatus === "sent" ? (
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", textAlign: "center", padding: 48, border: "1px solid rgba(55,138,221,0.3)", background: "rgba(55,138,221,0.04)" }}>
                 <div style={{ fontSize: 48, marginBottom: 20 }}>✓</div>
-                <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 24, fontWeight: 700, color: "#FAFAF9", marginBottom: 12 }}>Message Sent</h3>
-                <p style={{ color: "#A1A09A", fontSize: 15, fontWeight: 300 }}>I'll get back to you within 24 hours. Looking forward to talking.</p>
+                <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 24, fontWeight: 700, color: "#FAFAF9", marginBottom: 12 }}>Message Sent</h3>
+                <p style={{ color: "#A1A09A", fontSize: 15, fontWeight: 300 }}>I'll get back to you within 24 hours.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                   <div>
                     <label style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 8 }}>Name</label>
-                    <input className="input-field" type="text" name="name" required placeholder="Alex Johnson" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
+                    <input className="input-field" type="text" required placeholder="Alex Johnson" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
                   </div>
                   <div>
                     <label style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 8 }}>Email</label>
-                    <input className="input-field" type="email" name="email" required placeholder="alex@company.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
+                    <input className="input-field" type="email" required placeholder="alex@company.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
                   </div>
                 </div>
                 <div>
                   <label style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 8 }}>Service Needed</label>
-                  <select className="input-field" name="service" required value={formData.service} onChange={e => setFormData({ ...formData, service: e.target.value })} style={{ cursor: "pointer" }}>
+                  <select className="input-field" required value={formData.service} onChange={e => setFormData({ ...formData, service: e.target.value })} style={{ cursor: "pointer" }}>
                     <option value="" disabled>Select a service...</option>
+                    <option value="web">Web Design & Development</option>
                     <option value="rag">RAG Pipeline Engineering</option>
                     <option value="agents">AI Agent & Automation</option>
                     <option value="cv">Computer Vision Systems</option>
@@ -515,7 +719,7 @@ const handleSubmit = async (e) => {
                 </div>
                 <div>
                   <label style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 8 }}>Message</label>
-                  <textarea className="input-field" name="" required rows={5} placeholder="Tell me about your project — what problem are you solving, what data do you have, what does success look like?" value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} style={{ resize: "vertical" }} />
+                  <textarea className="input-field" required rows={5} placeholder="Tell me about your project — what are you building, what does success look like?" value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} style={{ resize: "vertical" }} />
                 </div>
                 <button type="submit" className="btn-primary" style={{ alignSelf: "flex-start" }} disabled={formStatus === "sending"}>
                   {formStatus === "sending" ? "Sending..." : "Send Message →"}
