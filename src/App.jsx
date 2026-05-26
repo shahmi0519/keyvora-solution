@@ -153,6 +153,7 @@ function WebDevCard({ s }) {
 
   return (
     <div
+      className="webdev-card"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -171,9 +172,9 @@ function WebDevCard({ s }) {
         transition: "all 0.4s ease", pointerEvents: "none",
       }} />
  
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+      <div className="webdev-grid">
         {/* LEFT */}
-        <div style={{ padding: "44px 40px", borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="webdev-left" style={{ padding: "40px 30px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
             <div style={{
               width: 48, height: 48, borderRadius: "50%",
@@ -181,7 +182,7 @@ function WebDevCard({ s }) {
               display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22,
             }}>🌐</div>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                 <span style={{
                   background: "#D6F5E6", color: "#1A5C3A",
                   fontSize: 10, fontWeight: 700, letterSpacing: "0.08em",
@@ -198,7 +199,7 @@ function WebDevCard({ s }) {
           </div>
  
           <h3 style={{
-            fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 30,
+            fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "clamp(24px, 4vw, 30px)",
             color: "#FAFAF9", marginBottom: 14, letterSpacing: "-0.02em", lineHeight: 1.1
           }}>
             Web Design &<br />
@@ -209,10 +210,10 @@ function WebDevCard({ s }) {
             From blazing-fast static landing pages to full-featured dynamic React applications with backend APIs. Every site is mobile-first, performance-optimized, and deployed — not just designed.
           </p>
  
-          <div style={{ display: "flex", gap: 12, marginBottom: 28 }}>
+          <div style={{ display: "flex", gap: 12, marginBottom: 28, flexWrap: "wrap" }}>
             {[["Static", "HTML · CSS · JS · SEO-ready"], ["Dynamic", "React · Vite · API · Realtime"]].map(([type, sub]) => (
               <div key={type} style={{
-                flex: 1, padding: "12px 14px",
+                flex: "1 1 160px", padding: "12px 14px",
                 background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
               }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#00C47A", marginBottom: 4 }}>{type}</div>
@@ -233,7 +234,7 @@ function WebDevCard({ s }) {
         </div>
  
         {/* RIGHT */}
-        <div style={{ padding: "44px 40px" }}>
+        <div style={{ padding: "40px 30px" }}>
           <div style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 20 }}>What's included</div>
  
           {s?.outcomes?.map((o, i) => (
@@ -249,7 +250,7 @@ function WebDevCard({ s }) {
             </div>
           ))}
  
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginTop: 24 }}>
+          <div className="webdev-metrics" style={{ marginTop: 24 }}>
             {[["100%", "Mobile First"], ["<1s", "Load Time"], ["∞", "Scalable"]].map(([n, l]) => (
               <div key={l} style={{
                 background: "rgba(0,196,122,0.06)", border: "1px solid rgba(0,196,122,0.15)",
@@ -266,40 +267,10 @@ function WebDevCard({ s }) {
   );
 }
  
-// function ServicePanel({ s }) {
-//   if (!s) return null;
-//   return (
-//     <div style={{ padding: 48, animation: "fadeIn 0.3s ease" }}>
-//       <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }`}</style>
-//       <div style={{ fontSize: 40, marginBottom: 20 }}>{s.icon}</div>
-//       <span style={{ display: "inline-block", background: s.tagBg, color: s.tagColor, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 2, marginBottom: 20 }}>
-//         {s.tag}
-//       </span>
-//       <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 700, color: "#FAFAF9", marginBottom: 20 }}>{s.title}</h3>
-//       <p style={{ fontSize: 15, color: "#A1A09A", lineHeight: 1.8, marginBottom: 32, fontWeight: 300 }}>{s.desc}</p>
-      
-//       <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 24 }}>
-//         <div style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 16 }}>What you get</div>
-//         {s?.outcomes?.map((o, i) => (
-//           <div key={i} style={{ fontSize: 14, color: "#A1A09A", marginBottom: 10, display: "flex", alignItems: "center" }}>
-//             <span style={{ color: s.accent || "#378ADD", marginRight: 10, fontWeight: 700 }}>→</span>{o}
-//           </div>
-//         ))}
-//       </div>
-
-//       <div style={{ marginTop: 28, display: "flex", flexWrap: "wrap", gap: 8 }}>
-//         {s?.techIcons?.map(t => (
-//           <span key={t} style={{ background: "rgba(255,255,255,0.06)", color: "#A1A09A", fontSize: 12, padding: "4px 10px", borderRadius: 2 }}>{t}</span>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
 function ServicePanel({ s }) {
   if (!s) return null;
   return (
-    <div style={{ padding: 48, animation: "fadeIn 0.3s ease" }}>
+    <div className="service-panel" style={{ padding: "40px 30px", animation: "fadeIn 0.3s ease" }}>
       <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }`}</style>
       <div style={{ fontSize: 40, marginBottom: 20 }}>{s.icon}</div>
       <span style={{ display: "inline-block", background: s.tagBg, color: s.tagColor, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 2, marginBottom: 20 }}>
@@ -333,6 +304,7 @@ export default function Portfolio() {
   const [formData, setFormData] = useState({ name: "", email: "", service: "", message: "" });
   const [formStatus, setFormStatus] = useState("idle");
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -369,6 +341,7 @@ export default function Portfolio() {
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -378,66 +351,130 @@ export default function Portfolio() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         ::selection { background: #185FA5; color: #fff; }
         html { scroll-behavior: smooth; }
+        
+        /* Utility styles */
         .nav-link { cursor: pointer; color: #A1A09A; font-size: 14px; font-weight: 500; letter-spacing: 0.04em; transition: color 0.2s; text-decoration: none; }
         .nav-link:hover { color: #FAFAF9; }
         .btn-primary { background: #FAFAF9; color: #09090B; border: none; padding: 14px 32px; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; font-family: inherit; }
         .btn-primary:hover { background: #E5E5E3; transform: translateY(-1px); }
         .btn-outline { background: transparent; color: #FAFAF9; border: 1px solid rgba(255,255,255,0.2); padding: 14px 32px; font-size: 14px; font-weight: 500; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; font-family: inherit; }
         .btn-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.04); }
-        .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; }
         .grid-noise { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M60 0H0v60' stroke='rgba(255,255,255,0.03)' stroke-width='0.5'/%3E%3C/svg%3E"); }
+        
+        /* Services Layout elements */
         .service-btn { background: transparent; border: none; cursor: pointer; font-family: inherit; text-align: left; width: 100%; padding: 18px 24px; border-left: 2px solid transparent; transition: all 0.2s; }
         .service-btn:hover { background: rgba(255,255,255,0.03); }
         .service-btn.active { border-left-color: #378ADD; background: rgba(55,138,221,0.06); }
         .service-btn.active .svc-title { color: #FAFAF9; }
         .svc-title { font-size: 15px; font-weight: 500; color: #71706A; transition: color 0.2s; }
-        .svc-tag-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; }
         .stack-pill { background: rgba(255,255,255,0.06); color: #A1A09A; font-size: 12px; padding: 4px 10px; border-radius: 2px; letter-spacing: 0.02em; }
+        
+        /* Inputs */
         .input-field { background: #18181B; border: 1px solid rgba(255,255,255,0.1); color: #FAFAF9; padding: 14px 16px; font-size: 14px; font-family: inherit; width: 100%; transition: border-color 0.2s; outline: none; }
         .input-field:focus { border-color: rgba(55,138,221,0.6); }
         .input-field::placeholder { color: rgba(255,255,255,0.25); }
-        .input-field option{background: #FFFFFF, color: #09090B}
         .proj-tab { background: transparent; border: none; cursor: pointer; font-family: inherit; padding: 12px 20px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #71706A; border-bottom: 2px solid transparent; transition: all 0.2s; }
-        .proj-tab:hover { color: #A1A09A; }
         .proj-tab.active { color: #FAFAF9; border-bottom-color: #378ADD; }
         .link-arrow { display: inline-flex; align-items: center; gap: 6px; color: #378ADD; font-size: 13px; font-weight: 500; text-decoration: none; transition: gap 0.2s; }
         .link-arrow:hover { gap: 10px; }
-        a { text-decoration: none; }
-        .hero-title { font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; }
+        
+        /* Layout structures definitions */
+        .nav-links-container { display: flex; gap: 40px; align-items: center; }
+        .burger-menu { display: none; background: transparent; border: none; cursor: pointer; color: #FAFAF9; font-size: 24px; }
+        .hero-flex { display: flex; align-items: flex-end; gap: 60px; flex-wrap: wrap; }
+        .about-grid { display: grid; grid-template-Columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; gap: 20px; }
+        .webdev-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+        .webdev-left { border-right: 1px solid rgba(255,255,255,0.06); }
+        .webdev-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .services-tabs-layout { display: grid; grid-template-columns: 260px 1fr; gap: 0; border: 1px solid rgba(255,255,255,0.07); }
+        .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1; background: rgba(255,255,255,0.06); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .footer-container { display: flex; justify-content: space-between; align-items: center; }
+
         .photo-frame { width: 320px; height: 400px; overflow: hidden; position: relative; flex-shrink: 0; }
         .photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
         .photo-accent { position: absolute; top: -12px; right: -12px; width: 100%; height: 100%; border: 1px solid rgba(55,138,221,0.3); z-index: -1; }
+        .hero-title { font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; }
+
+        /* Media Queries for full responsiveness across screens */
+        @media (max-width: 1024px) {
+          .about-grid, .contact-grid, .project-grid { grid-template-columns: 1fr; gap: 48px; }
+          .services-header { flex-direction: column; align-items: flex-start; }
+          .services-header p { text-align: left; }
+          .trust-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+          .nav-links-container { display: none; }
+          .burger-menu { display: block; }
+          .hero-flex { flex-direction: column; align-items: center; text-align: center; }
+          .hero-flex p { margin: 0 auto 32px; }
+          .hero-flex div { justify-content: center; }
+          .photo-frame { width: 280px; height: 350px; }
+          .webdev-grid { grid-template-columns: 1fr; }
+          .webdev-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .services-tabs-layout { grid-template-columns: 1fr; }
+          .services-tabs-layout > div:first-child { display: flex; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+          .service-btn { min-width: 200px; border-left: none; border-bottom: 2px solid transparent; text-align: center; }
+          .service-btn.active { border-left-color: transparent; border-bottom-color: #378ADD; }
+          .form-row { grid-template-columns: 1fr; }
+          .footer-container { flex-direction: column; gap: 20px; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+          .webdev-metrics { grid-template-columns: 1fr; }
+          .trust-grid { grid-template-columns: 1fr; }
+          .proj-tab { padding: 10px 12px; font-size: 11px; }
+        }
       `}</style>
 
       {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "20px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", background: scrolled ? "rgba(9,9,11,0.9)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none", transition: "all 0.3s" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "20px 5%", display: "flex", alignItems: "center", justifyContent: "space-between", background: scrolled || mobileMenuOpen ? "rgba(9,9,11,0.95)" : "transparent", backdropFilter: scrolled || mobileMenuOpen ? "blur(12px)" : "none", borderBottom: scrolled || mobileMenuOpen ? "1px solid rgba(255,255,255,0.06)" : "none", transition: "all 0.3s" }}>
         <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 18, letterSpacing: "-0.02em" }}>
           <span style={{ color: "#FAFAF9" }}>Keyvora AI Solutions</span><span style={{ color: "#378ADD" }}>.</span>
         </div>
-        <div style={{ display: "flex", gap: 40 }}>
+        
+        <div className="nav-links-container">
           {NAV_LINKS.map(l => <span key={l} className="nav-link" onClick={() => scrollTo(l.toLowerCase())}>{l}</span>)}
+          <button className="btn-primary" style={{ padding: "10px 22px", fontSize: 13 }} onClick={() => scrollTo("contact")}>
+            Hire Me
+          </button>
         </div>
-        <button className="btn-primary" style={{ padding: "10px 22px", fontSize: 13 }} onClick={() => scrollTo("contact")}>
-          Hire Me
+
+        <button className="burger-menu" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          {mobileMenuOpen ? "✕" : "☰"}
         </button>
+
+        {/* MOBILE DRAWER */}
+        {mobileMenuOpen && (
+          <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "rgba(9,9,11,0.98)", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", padding: "20px 5%", gap: "20px", boxSizing: "border-box" }}>
+            {NAV_LINKS.map(l => <span key={l} className="nav-link" style={{ fontSize: "16px", padding: "8px 0" }} onClick={() => scrollTo(l.toLowerCase())}>{l}</span>)}
+            <button className="btn-primary" style={{ width: "100%", padding: "14px" }} onClick={() => scrollTo("contact")}>
+              Hire Me
+            </button>
+          </div>
+        )}
       </nav>
 
       {/* HERO */}
-      <section id="hero" className="grid-noise" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "0 40px 80px", position: "relative", overflow: "hidden", background: "linear-gradient(to bottom, #161619, #121214)" }}>
-        <div style={{ position: "absolute", top: "15%", right: "-10%", width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(24,95,165,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: "10%", left: "-5%", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle, rgba(55,138,221,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
+      <section id="hero" className="grid-noise" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "120px 5% 80px", position: "relative", overflow: "hidden", background: "linear-gradient(to bottom, #161619, #121214)", boxSizing: "border-box" }}>
+        <div style={{ position: "absolute", top: "15%", right: "-10%", width: "min(600px, 90vw)", height: "min(600px, 90vw)", borderRadius: "50%", background: "radial-gradient(circle, rgba(24,95,165,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "10%", left: "-5%", width: "min(400px, 70vw)", height: "min(400px, 70vw)", borderRadius: "50%", background: "radial-gradient(circle, rgba(55,138,221,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
 
         <div style={{ maxWidth: 1200, margin: "0 auto", width: "100%" }}>
           <div style={{ opacity: 0, animation: "fadeUp 1s ease 0.2s forwards" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 40 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 40, justifyContent: "inherit" }}>
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22C55E", boxShadow: "0 0 12px #22C55E" }} />
               <span style={{ fontSize: 13, color: "#71706A", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 500 }}>Available for new projects</span>
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 60, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 300 }}>
-              <h1 className="hero-title" style={{ fontSize: "clamp(30px, 7vw, 50px)", color: "#FAFAF9", marginBottom: 32, opacity: 0, animation: "fadeUp 1s ease 0.4s forwards" }}>
+          <div className="hero-flex">
+            <div style={{ flex: "1 1 300px" }}>
+              <h1 className="hero-title" style={{ fontSize: "clamp(32px, 7vw, 56px)", color: "#FAFAF9", marginBottom: 32, opacity: 0, animation: "fadeUp 1s ease 0.4s forwards" }}>
                 Full-Stack<br />
                 <span style={{ WebkitTextStroke: "1px rgba(255,255,255,0.3)", color: "transparent" }}>AI Engineer</span><br />
                 <span style={{ color: "#378ADD" }}>& Builder</span>
@@ -446,7 +483,7 @@ export default function Portfolio() {
                 <p style={{ fontSize: 17, color: "#A1A09A", lineHeight: 1.7, marginBottom: 32, fontWeight: 300, maxWidth: 480 }}>
                   I build production AI systems that generate measurable ROI — RAG pipelines, autonomous agents, computer vision, and full-stack LLM applications. Based in Sri Lanka, working globally.
                 </p>
-                <div style={{ display: "flex", gap: 16 }}>
+                <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
                   <button className="btn-primary" onClick={() => scrollTo("work")}>View My Work</button>
                   <button className="btn-outline" onClick={() => scrollTo("contact")}>Start a Project</button>
                 </div>
@@ -463,9 +500,9 @@ export default function Portfolio() {
           </div>
 
           {/* STATS */}
-          <div style={{ display: "flex", gap: 48, marginTop: 60, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)", opacity: 0, animation: "fadeUp 1s ease 0.8s forwards", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "40px 48px", marginTop: 60, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)", opacity: 0, animation: "fadeUp 1s ease 0.8s forwards", flexWrap: "wrap" }}>
             {[["3+", "Production Systems Deployed"], ["10+", "AI Projects Completed"], ["93%", "Peak Model Accuracy"], ["3", "Deployed Cloud Platforms"]].map(([n, l]) => (
-              <div key={n}>
+              <div key={n} style={{ flex: "1 1 160px", minWidth: "140px" }}>
                 <div style={{ fontFamily: "'Syne', sans-serif", fontSize: 32, fontWeight: 800, color: "#FAFAF9", lineHeight: 1 }}>{n}</div>
                 <div style={{ fontSize: 12, color: "#71706A", marginTop: 6, lineHeight: 1.4, fontWeight: 500 }}>{l}</div>
               </div>
@@ -476,11 +513,11 @@ export default function Portfolio() {
       </section>
 
       {/* ABOUT */}
-      <section id="about" style={{ padding: "120px 40px", borderTop: "1px solid rgba(255,255,255,0.06)", background: "#121214" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+      <section id="about" style={{ padding: "120px 5%", borderTop: "1px solid rgba(255,255,255,0.06)", background: "#121214" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }} className="about-grid">
           <Reveal>
             <div style={{ fontSize: 12, color: "#378ADD", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 20 }}>About</div>
-            <h2 className="hero-title" style={{ fontSize: "clamp(36px, 4vw, 54px)", color: "#FAFAF9", marginBottom: 32, lineHeight: 1.1 }}>
+            <h2 className="hero-title" style={{ fontSize: "clamp(32px, 4vw, 54px)", color: "#FAFAF9", marginBottom: 32, lineHeight: 1.1 }}>
               Engineering meets<br />Generative Intelligence
             </h2>
             <p style={{ fontSize: 16, color: "#A1A09A", lineHeight: 1.8, marginBottom: 20, fontWeight: 300 }}>
@@ -491,14 +528,14 @@ export default function Portfolio() {
             </p>
           </Reveal>
           <Reveal delay={150}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: "rgba(255,255,255,0.06)" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
               {[
                 { label: "Recognition", value: "1st Place", sub: "IEEE FYP Arena" },
                 { label: "Core Focus", value: "AI / MLOps", sub: "Production Systems" },
                 { label: "Primary Stack", value: "Python + React", sub: "FastAPI + LangChain" },
                 { label: "Cloud", value: "AWS EC2", sub: "Docker + Vercel" },
               ].map(({ label, value, sub }) => (
-                <div key={label} style={{ background: "#1A1A1E", padding: "28px 24px", borderRadius: "4px" }}>
+                <div key={label} style={{ background: "#1A1A1E", padding: "28px 24px", borderRadius: "4px", border: "1px solid rgba(255,255,255,0.02)" }}>
                   <div style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>{label}</div>
                   <div style={{ fontSize: 18, fontWeight: 600, color: "#FAFAF9", marginBottom: 4 }}>{value}</div>
                   <div style={{ fontSize: 12, color: "#71706A" }}>{sub}</div>
@@ -510,15 +547,15 @@ export default function Portfolio() {
       </section>
 
       {/* SERVICES */}
-      <section id="services" style={{ padding: "120px 40px", borderTop: "1px solid rgba(255,255,255,0.06)", background: "#16161A" }}>
+      <section id="services" style={{ padding: "120px 5%", borderTop: "1px solid rgba(255,255,255,0.06)", background: "#16161A" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 64 }}>
+            <div className="services-header">
               <div>
                 <div style={{ fontSize: 12, color: "#378ADD", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16 }}>Services</div>
                 <h2 className="hero-title" style={{ fontSize: "clamp(32px, 3.5vw, 48px)", color: "#FAFAF9" }}>What I build for you</h2>
               </div>
-              <p style={{ maxWidth: 320, fontSize: 15, color: "#71706A", lineHeight: 1.7, textAlign: "right", fontWeight: 300 }}>
+              <p style={{ maxWidth: 320, fontSize: 15, color: "#71706A", lineHeight: 1.7, fontWeight: 300 }}>
                 Each engagement is scoped around outcomes, not hours. I measure success by what your business can do after.
               </p>
             </div>
@@ -540,17 +577,17 @@ export default function Portfolio() {
 
           {/* Non-featured services tab layout */}
           <Reveal delay={160}>
-            <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 0, border: "1px solid rgba(255,255,255,0.07)" }}>
-              <div style={{ borderRight: "1px solid rgba(255,255,255,0.07)" }}>
+            <div className="services-tabs-layout">
+              <div>
                 {nonFeaturedServices.map((s, i) => (
                   <button
                     key={i}
                     className={`service-btn ${activeService === i ? "active" : ""}`}
                     onClick={() => setActiveService(i)}
-                    style={{ borderLeftColor: activeService === i ? (s.accent || "#378ADD") : "transparent" }}
+                    style={{ borderLeftColor: window.innerWidth > 768 && activeService === i ? (s.accent || "#378ADD") : "transparent" }}
                   >
-                    <div className="svc-title">{s.title}</div>
-                    <div className="svc-tag" style={{ color: activeService === i ? (s.accent || "#378ADD") : "#555550" }}>{s.tag}</div>
+                    <div className="svc-title" style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{s.title}</div>
+                    <div className="svc-tag" style={{ color: activeService === i ? (s.accent || "#378ADD") : "#555550", fontSize: 11 }}>{s.tag}</div>
                   </button>
                 ))}
               </div>
@@ -565,16 +602,16 @@ export default function Portfolio() {
       </section>
 
       {/* PROJECTS */}
-      <section id="work" style={{ padding: "120px 40px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <section id="work" style={{ padding: "120px 5%", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <Reveal>
             <div style={{ fontSize: 12, color: "#378ADD", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16 }}>Featured Work</div>
             <h2 className="hero-title" style={{ fontSize: "clamp(32px, 3.5vw, 48px)", color: "#FAFAF9", marginBottom: 48 }}>Case studies</h2>
           </Reveal>
 
-          <div style={{ borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 0, display: "flex" }}>
+          <div style={{ borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 0, display: "flex", overflowX: "auto" }}>
             {PROJECTS.map((p, i) => (
-              <button key={i} className={`proj-tab ${activeProject === i ? "active" : ""}`} onClick={() => setActiveProject(i)}>
+              <button key={i} className={`proj-tab ${activeProject === i ? "active" : ""}`} onClick={() => setActiveProject(i)} style={{ whiteSpace: "nowrap" }}>
                 {p.name}
               </button>
             ))}
@@ -584,14 +621,14 @@ export default function Portfolio() {
             const p = PROJECTS[activeProject];
             if (!p) return null;
             return (
-              <div key={activeProject} style={{ border: "1px solid rgba(255,255,255,0.07)", borderTop: "none", padding: 48, animation: "fadeIn 0.3s ease" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64 }}>
+              <div key={activeProject} style={{ border: "1px solid rgba(255,255,255,0.07)", borderTop: "none", padding: "40px 5%", animation: "fadeIn 0.3s ease", boxSizing: "border-box" }}>
+                <div className="project-grid">
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
                       <span style={{ background: p.bgColor, color: p.color, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 2 }}>{p.status}</span>
                       <span style={{ color: "#71706A", fontSize: 13 }}>{p.year}</span>
                     </div>
-                    <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 36, fontWeight: 800, color: "#FAFAF9", lineHeight: 1.1, marginBottom: 8 }}>{p.name}</h3>
+                    <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(28px, 4vw, 36px)", fontWeight: 800, color: "#FAFAF9", lineHeight: 1.1, marginBottom: 8 }}>{p.name}</h3>
                     <p style={{ color: "#71706A", fontSize: 15, marginBottom: 40 }}>{p.subtitle}</p>
 
                     <div style={{ marginBottom: 28 }}>
@@ -622,13 +659,11 @@ export default function Portfolio() {
                           ▶ Watch Demo
                         </a>
                       )}
-                      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                        {p.github !== "#" && p.github && (
-                          <a href={p.github} target="_blank" rel="noopener noreferrer" style={{ display: "block", background: "transparent", border: "1px solid rgba(255,255,255,0.15)", color: "#FAFAF9", textAlign: "center", padding: "14px", fontSize: 13, fontWeight: 600, letterSpacing: "0.04em" }}>
-                            GitHub →
-                          </a>
-                        )}
-                      </div>
+                      {p.github !== "#" && p.github && (
+                        <a href={p.github} target="_blank" rel="noopener noreferrer" style={{ display: "block", background: "transparent", border: "1px solid rgba(255,255,255,0.15)", color: "#FAFAF9", textAlign: "center", padding: "14px", fontSize: 13, fontWeight: 600, letterSpacing: "0.04em" }}>
+                          GitHub →
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -639,9 +674,9 @@ export default function Portfolio() {
       </section>
 
       {/* TRUST BAR */}
-      <section style={{ padding: "80px 40px", background: "#0D0D10", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <section style={{ padding: "60px 5%", background: "#0D0D10", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, background: "rgba(255,255,255,0.06)" }}>
+          <div className="trust-grid">
             {[
               { n: "AWS EC2", l: "Cloud Platform" },
               { n: "LangChain", l: "AI Framework" },
@@ -660,8 +695,8 @@ export default function Portfolio() {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" style={{ padding: "120px 40px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80 }}>
+      <section id="contact" style={{ padding: "120px 5%", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }} className="contact-grid">
           <Reveal>
             <div style={{ fontSize: 12, color: "#378ADD", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 20 }}>Contact</div>
             <h2 className="hero-title" style={{ fontSize: "clamp(32px, 3.5vw, 54px)", color: "#FAFAF9", lineHeight: 1.1, marginBottom: 24 }}>
@@ -678,9 +713,9 @@ export default function Portfolio() {
                 { label: "LinkedIn", value: "ahamed-shahmi-abduljabbar", href: "https://www.linkedin.com/in/ahamed-shahmi-abduljabbar/" },
                 { label: "GitHub", value: "shahmi0519", href: "https://github.com/shahmi0519" },
               ].map(({ label, value, href }) => (
-                <div key={label} style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                <div key={label} style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
                   <div style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", minWidth: 70 }}>{label}</div>
-                  <a href={href} target="_blank" rel="noopener noreferrer" className="link-arrow">{value} <span>↗</span></a>
+                  <a href={href} target="_blank" rel="noopener noreferrer" className="link-arrow" style={{ wordBreak: "break-all" }}>{value} <span>↗</span></a>
                 </div>
               ))}
             </div>
@@ -695,7 +730,7 @@ export default function Portfolio() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div className="form-row">
                   <div>
                     <label style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 8 }}>Name</label>
                     <input className="input-field" type="text" required placeholder="Alex Johnson" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
@@ -734,14 +769,16 @@ export default function Portfolio() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ padding: "40px", borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 16 }}>
-          <span style={{ color: "#FAFAF9" }}>Keyvora AI Solutions</span><span style={{ color: "#378ADD" }}>.</span>
-        </div>
-        <p style={{ fontSize: 13, color: "#555550" }}>© 2026 Keyvora AI Solutions. All rights reserved.</p>
-        <div style={{ display: "flex", gap: 24 }}>
-          <a href="https://www.linkedin.com/in/ahamed-shahmi-abduljabbar/" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "#71706A", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color = "#FAFAF9"} onMouseLeave={e => e.target.style.color = "#71706A"}>LinkedIn</a>
-          <a href="https://github.com/shahmi0519" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "#71706A", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color = "#FAFAF9"} onMouseLeave={e => e.target.style.color = "#71706A"}>GitHub</a>
+      <footer style={{ padding: "40px 5%", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="footer-container">
+          <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 16 }}>
+            <span style={{ color: "#FAFAF9" }}>Keyvora AI Solutions</span><span style={{ color: "#378ADD" }}>.</span>
+          </div>
+          <p style={{ fontSize: 13, color: "#555550" }}>© 2026 Keyvora AI Solutions. All rights reserved.</p>
+          <div style={{ display: "flex", gap: 24 }}>
+            <a href="https://www.linkedin.com/in/ahamed-shahmi-abduljabbar/" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "#71706A", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color = "#FAFAF9"} onMouseLeave={e => e.target.style.color = "#71706A"}>LinkedIn</a>
+            <a href="https://github.com/shahmi0519" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "#71706A", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color = "#FAFAF9"} onMouseLeave={e => e.target.style.color = "#71706A"}>GitHub</a>
+          </div>
         </div>
       </footer>
     </div>
