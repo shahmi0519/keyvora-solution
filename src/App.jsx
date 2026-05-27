@@ -125,6 +125,66 @@ const PROJECTS = [
     github: "#",
     demo: "#",
   },
+  {
+    name: "FlowSync",
+    subtitle: "MERN Project Management Platform",
+    year: "2026",
+    status: "Live",
+    color: "#00C47A",
+    bgColor: "#E6F1FB",
+    problem: "Engineering teams face friction with bloated, slow, and non-realtime management tools like Jira or Asana.",
+    solution: "A real-time, API-first MERN platform using WebSockets (Socket.io) for instantaneous team syncing under 80ms, equipped with flexible MongoDB document tracking, analytical burndown dashboards, and custom webhooks.",
+    impact: "Trusted by 4,200+ engineering teams with a 99.98% platform uptime guarantee. Enables teams to migrate ecosystems effortlessly and spin up active sprint workflows in minutes.",
+    stack: ["MongoDB", "Express.js", "React", "Node.js", "Socket.io", "TypeScript", "Tailwind", "Docker", "AWS EC2/S3"],
+    link: "https://flow-sync-ten.vercel.app/",
+    // github: "#", // Add your github link if available
+    demo: "https://flow-sync-ten.vercel.app/",
+  },
+  {
+    name: "Ember & Co.",
+    subtitle: "Fine Dining Digital Experience",
+    year: "2026",
+    status: "Live",
+    color: "#854F0B",
+    bgColor: "#FAEEDA",
+    problem: "High-end restaurants need an online presence that mirrors their physical intimacy, seasonal elegance, and real-time reservation fluidity.",
+    solution: "An immersive digital portal utilizing reactive menu breakdowns, full-stack dietary routing, structural media grids displaying restaurant interiors, and a seamless customized reservation request interface.",
+    impact: "Elevated Mayfair destination branding supporting a 38-cover capacity limit, featuring intuitive multi-tier responsive structures built with high-fidelity components.",
+    stack: ["React", "Vite", "Tailwind CSS", "JavaScript", "Responsive Design", "Form Processing"],
+    link: "https://ember-restaurant-three.vercel.app/",
+    // github: "#", 
+    demo: "https://ember-restaurant-three.vercel.app/",
+  },
+  {
+    name: "SwiftFlow",
+    subtitle: "Premium E-Commerce Platform",
+    year: "2026",
+    status: "Live",
+    color: "#114981",
+    bgColor: "#aec3a7",
+    problem: "Discerning consumers need an streamlined, lightning-fast digital cataloging experience to browse premium tech accessories without clutter.",
+    solution: "An active client-side commercial site implementing multi-tier filter states (categories, dynamic price ranging, stock statuses), immediate search indexing, product sorting criteria, and real-time storage cart state tracking.",
+    impact: "Engineered to comfortably scale across 500+ premium item variations with immediate reactive feedback under dynamic user search combinations.",
+    stack: ["React", "Vite", "Tailwind CSS", "State Management", "Client-Side Search", "UI/UX Optimization"],
+    link: "https://swiftflow-three.vercel.app/",
+    // github: "#",
+    demo: "https://swiftflow-three.vercel.app/",
+  },
+  {
+    name: "MediCare",
+    subtitle: "Healthcare Excellence Platform",
+    year: "2024",
+    status: "Live",
+    color: "#3c1eb5",
+    bgColor: "#9db5ef",
+    problem: "Patients frequently experience convoluted and stressful workflows when trying to look up clinicians, assess medical services, or request appointment windows.",
+    solution: "A complete multi-stage administrative portal containing structured service breakdowns (General, Dentistry, Pediatrics, Cardiology), dynamic doctor lookups with state filtering, and a guided multi-step booking module.",
+    impact: "Fully engineered following compliance guidelines (HIPAA compliant structures & 256-bit SSL encryption safeguards) to reliably handle patient workflows.",
+    stack: ["React", "Vite", "Tailwind CSS", "Multi-Step Forms", "Data Filtering", "Security Practices"],
+    link: "https://medicare-clinic-ten.vercel.app/",
+    // github: "#",
+    demo: "https://medicare-clinic-ten.vercel.app/",
+  },
 ];
 
 function useScrollReveal() {
@@ -501,7 +561,7 @@ export default function Portfolio() {
 
           {/* STATS */}
           <div style={{ display: "flex", gap: "40px 48px", marginTop: 60, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)", opacity: 0, animation: "fadeUp 1s ease 0.8s forwards", flexWrap: "wrap" }}>
-            {[["3+", "Production Systems Deployed"], ["10+", "AI Projects Completed"], ["93%", "Peak Model Accuracy"], ["3", "Deployed Cloud Platforms"]].map(([n, l]) => (
+            {[["3+", "Production Systems Deployed"], ["10+", "Projects Completed"], ["93%", "Peak Model Accuracy"], ["3", "Deployed Cloud Platforms"]].map(([n, l]) => (
               <div key={n} style={{ flex: "1 1 160px", minWidth: "140px" }}>
                 <div style={{ fontFamily: "'Syne', sans-serif", fontSize: 32, fontWeight: 800, color: "#FAFAF9", lineHeight: 1 }}>{n}</div>
                 <div style={{ fontSize: 12, color: "#71706A", marginTop: 6, lineHeight: 1.4, fontWeight: 500 }}>{l}</div>
