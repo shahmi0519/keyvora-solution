@@ -3,7 +3,7 @@ import profilePhoto from './image/Ahamed Shahmi.jpeg';
 
 const PHOTO_B64 = "PHOTO_PLACEHOLDER";
 
-const NAV_LINKS = ["About", "Services", "Work", "Contact"];
+const NAV_LINKS = ["About", "Services", "Work", "Reviews", "Contact"];
 
 const SERVICES = [
   {
@@ -127,6 +127,9 @@ const PROJECTS = [
   },
 ];
 
+// Point directly to your active local loopback runtime address
+const BACKEND_API_URL = "http://127.0.0.1:8000";
+
 function useScrollReveal() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -173,7 +176,6 @@ function WebDevCard({ s }) {
       }} />
  
       <div className="webdev-grid">
-        {/* LEFT */}
         <div className="webdev-left" style={{ padding: "40px 30px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
             <div style={{
@@ -233,7 +235,6 @@ function WebDevCard({ s }) {
           </div>
         </div>
  
-        {/* RIGHT */}
         <div style={{ padding: "40px 30px" }}>
           <div style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 20 }}>What's included</div>
  
@@ -306,6 +307,36 @@ export default function Portfolio() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const [reviews, setReviews] = useState([]);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [newReview, setNewReview] = useState({ name: "", company: "", email: "", rating: 5, text: "" });
+  const [reviewError, setReviewError] = useState("");
+
+  // Hook to pull data with strict JSON structure validation guards
+  useEffect(() => {
+    fetch(`${BACKEND_API_URL}/api/reviews`)
+      .then((res) => {
+        if (!res.ok) {
+          console.error(`Backend API validation failure tracking code: ${res.status}`);
+          return [];
+        }
+        return res.json();
+      })
+      .then((data) => {
+        // Validation Guard: Ensure payload is an iterable array so map loop doesn't crash
+        if (Array.isArray(data)) {
+          setReviews(data);
+        } else {
+          console.error("FastAPI returned validation dictionary instead of an Array sequence:", data);
+          setReviews([]);
+        }
+      })
+      .catch((err) => {
+        console.error("Network interface connection failure:", err);
+        setReviews([]);
+      });
+  }, []);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
@@ -339,6 +370,60 @@ export default function Portfolio() {
     }
   };
 
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    setReviewError("");
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(newReview.email)) {
+      setReviewError("Please provide a completely valid email format (e.g., alex@company.com).");
+      return;
+    }
+
+    try {
+     
+      const response = await fetch(`${BACKEND_API_URL}/api/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newReview)
+      });
+
+      
+      const result = await response.json();
+
+      if (response.ok) {
+        
+        const refreshedResponse = await fetch(`${BACKEND_API_URL}/api/reviews`);
+        if (refreshedResponse.ok) {
+          const refreshedData = await refreshedResponse.json();
+          
+          if (Array.isArray(refreshedData)) {
+            setReviews(refreshedData);
+          }
+        }
+        
+        
+        setReviewModalOpen(false);
+        setNewReview({ name: "", company: "", email: "", rating: 5, text: "" });
+        alert("Thank you! Your review has been saved to our database and is visible to everyone.");
+      } else {
+        
+        const errorDetail = result.detail;
+        if (typeof errorDetail === "string") {
+          setReviewError(errorDetail);
+        } else if (Array.isArray(errorDetail)) {
+          
+          setReviewError(errorDetail[0]?.msg || "Invalid input parameters submitted.");
+        } else {
+          setReviewError("Failed to process review submission parameters.");
+        }
+      }
+    } catch (err) {
+      setReviewError("Could not connect to the database server. Please try again later.");
+    }
+  };
+
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMobileMenuOpen(false);
@@ -352,7 +437,6 @@ export default function Portfolio() {
         ::selection { background: #185FA5; color: #fff; }
         html { scroll-behavior: smooth; }
         
-        /* Utility styles */
         .nav-link { cursor: pointer; color: #A1A09A; font-size: 14px; font-weight: 500; letter-spacing: 0.04em; transition: color 0.2s; text-decoration: none; }
         .nav-link:hover { color: #FAFAF9; }
         .btn-primary { background: #FAFAF9; color: #09090B; border: none; padding: 14px 32px; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; font-family: inherit; }
@@ -361,7 +445,6 @@ export default function Portfolio() {
         .btn-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.04); }
         .grid-noise { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M60 0H0v60' stroke='rgba(255,255,255,0.03)' stroke-width='0.5'/%3E%3C/svg%3E"); }
         
-        /* Services Layout elements */
         .service-btn { background: transparent; border: none; cursor: pointer; font-family: inherit; text-align: left; width: 100%; padding: 18px 24px; border-left: 2px solid transparent; transition: all 0.2s; }
         .service-btn:hover { background: rgba(255,255,255,0.03); }
         .service-btn.active { border-left-color: #378ADD; background: rgba(55,138,221,0.06); }
@@ -369,7 +452,6 @@ export default function Portfolio() {
         .svc-title { font-size: 15px; font-weight: 500; color: #71706A; transition: color 0.2s; }
         .stack-pill { background: rgba(255,255,255,0.06); color: #A1A09A; font-size: 12px; padding: 4px 10px; border-radius: 2px; letter-spacing: 0.02em; }
         
-        /* Inputs */
         .input-field { background: #18181B; border: 1px solid rgba(255,255,255,0.1); color: #FAFAF9; padding: 14px 16px; font-size: 14px; font-family: inherit; width: 100%; transition: border-color 0.2s; outline: none; }
         .input-field:focus { border-color: rgba(55,138,221,0.6); }
         .input-field::placeholder { color: rgba(255,255,255,0.25); }
@@ -378,11 +460,10 @@ export default function Portfolio() {
         .link-arrow { display: inline-flex; align-items: center; gap: 6px; color: #378ADD; font-size: 13px; font-weight: 500; text-decoration: none; transition: gap 0.2s; }
         .link-arrow:hover { gap: 10px; }
         
-        /* Layout structures definitions */
         .nav-links-container { display: flex; gap: 40px; align-items: center; }
         .burger-menu { display: none; background: transparent; border: none; cursor: pointer; color: #FAFAF9; font-size: 24px; }
         .hero-flex { display: flex; align-items: flex-end; gap: 60px; flex-wrap: wrap; }
-        .about-grid { display: grid; grid-template-Columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
         .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; gap: 20px; }
         .webdev-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
         .webdev-left { border-right: 1px solid rgba(255,255,255,0.06); }
@@ -393,13 +474,22 @@ export default function Portfolio() {
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .footer-container { display: flex; justify-content: space-between; align-items: center; }
+        
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; margin-top: 40px; }
+        .review-card { background: #16161A; border: 1px solid rgba(255,255,255,0.06); padding: 32px; border-radius: 4px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        
+        .location-container { background: #16161A; border: 1px solid rgba(255,255,255,0.06); padding: 24px; border-radius: 4px; margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+        .map-wrapper { width: 100%; height: 180px; background-color: #222226; position: relative; border-radius: 2px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .map-bg-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.65; transition: opacity 0.3s ease, transform 0.4s ease; }
+        .map-wrapper:hover .map-bg-img { opacity: 0.85; transform: scale(1.02); }
+        .map-overlay-btn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(18,18,20,0.4); text-decoration: none; transition: background 0.3s ease; }
+        .map-wrapper:hover .map-overlay-btn { background: rgba(18,18,20,0.2); }
 
         .photo-frame { width: 320px; height: 400px; overflow: hidden; position: relative; flex-shrink: 0; }
         .photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
         .photo-accent { position: absolute; top: -12px; right: -12px; width: 100%; height: 100%; border: 1px solid rgba(55,138,221,0.3); z-index: -1; }
         .hero-title { font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; }
 
-        /* Media Queries for full responsiveness across screens */
         @media (max-width: 1024px) {
           .about-grid, .contact-grid, .project-grid { grid-template-columns: 1fr; gap: 48px; }
           .services-header { flex-direction: column; align-items: flex-start; }
@@ -422,6 +512,7 @@ export default function Portfolio() {
           .service-btn.active { border-left-color: transparent; border-bottom-color: #378ADD; }
           .form-row { grid-template-columns: 1fr; }
           .footer-container { flex-direction: column; gap: 20px; text-align: center; }
+          .reviews-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 480px) {
@@ -431,7 +522,6 @@ export default function Portfolio() {
         }
       `}</style>
 
-      {/* NAV */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "20px 5%", display: "flex", alignItems: "center", justifyContent: "space-between", background: scrolled || mobileMenuOpen ? "rgba(9,9,11,0.95)" : "transparent", backdropFilter: scrolled || mobileMenuOpen ? "blur(12px)" : "none", borderBottom: scrolled || mobileMenuOpen ? "1px solid rgba(255,255,255,0.06)" : "none", transition: "all 0.3s" }}>
         <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 18, letterSpacing: "-0.02em" }}>
           <span style={{ color: "#FAFAF9" }}>Keyvora AI Solutions</span><span style={{ color: "#378ADD" }}>.</span>
@@ -448,7 +538,6 @@ export default function Portfolio() {
           {mobileMenuOpen ? "✕" : "☰"}
         </button>
 
-        {/* MOBILE DRAWER */}
         {mobileMenuOpen && (
           <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "rgba(9,9,11,0.98)", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", padding: "20px 5%", gap: "20px", boxSizing: "border-box" }}>
             {NAV_LINKS.map(l => <span key={l} className="nav-link" style={{ fontSize: "16px", padding: "8px 0" }} onClick={() => scrollTo(l.toLowerCase())}>{l}</span>)}
@@ -459,7 +548,6 @@ export default function Portfolio() {
         )}
       </nav>
 
-      {/* HERO */}
       <section id="hero" className="grid-noise" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "120px 5% 80px", position: "relative", overflow: "hidden", background: "linear-gradient(to bottom, #161619, #121214)", boxSizing: "border-box" }}>
         <div style={{ position: "absolute", top: "15%", right: "-10%", width: "min(600px, 90vw)", height: "min(600px, 90vw)", borderRadius: "50%", background: "radial-gradient(circle, rgba(24,95,165,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "10%", left: "-5%", width: "min(400px, 70vw)", height: "min(400px, 70vw)", borderRadius: "50%", background: "radial-gradient(circle, rgba(55,138,221,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
@@ -490,7 +578,6 @@ export default function Portfolio() {
               </div>
             </div>
 
-            {/* PHOTO */}
             <div style={{ opacity: 0, animation: "fadeUp 1s ease 0.5s forwards", position: "relative" }}>
               <div className="photo-frame">
                 <img src={profilePhoto} alt="Ahamed Shahmi" />
@@ -499,7 +586,6 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* STATS */}
           <div style={{ display: "flex", gap: "40px 48px", marginTop: 60, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)", opacity: 0, animation: "fadeUp 1s ease 0.8s forwards", flexWrap: "wrap" }}>
             {[["3+", "Production Systems Deployed"], ["10+", "AI Projects Completed"], ["93%", "Peak Model Accuracy"], ["3", "Deployed Cloud Platforms"]].map(([n, l]) => (
               <div key={n} style={{ flex: "1 1 160px", minWidth: "140px" }}>
@@ -512,7 +598,6 @@ export default function Portfolio() {
         <style>{`@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }`}</style>
       </section>
 
-      {/* ABOUT */}
       <section id="about" style={{ padding: "120px 5%", borderTop: "1px solid rgba(255,255,255,0.06)", background: "#121214" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }} className="about-grid">
           <Reveal>
@@ -521,10 +606,10 @@ export default function Portfolio() {
               Engineering meets<br />Generative Intelligence
             </h2>
             <p style={{ fontSize: 16, color: "#A1A09A", lineHeight: 1.8, marginBottom: 20, fontWeight: 300 }}>
-              I'm Abdul Jabbar Ahamed Shahmi — an AI/ML and full-stack engineer. My background in computer vision, image processing, natural language processing and systems engineering gives me an edge most AI developers.
+              I'm Abdul Jabbar Ahamed Shahmi — an AI/ML and full-stack engineer. My background in computer vision, image processing, natural language processing and systems engineering gives me an edge over standard developers.
             </p>
             <p style={{ fontSize: 16, color: "#A1A09A", lineHeight: 1.8, fontWeight: 300 }}>
-              I won 1st Place at the IEEE FYP Arena for a multi-modal AI system achieving 93% accuracy on edge hardware. That same precision and obsession with production-grade systems is what I bring to every client project.
+              I won 1st Place at the IEEE FYP Arena for a multi-modal AI system achieving 93% accuracy on edge hardware. That same precision and obsession with production-grade reliability is what I bring to every client project.
             </p>
           </Reveal>
           <Reveal delay={150}>
@@ -546,7 +631,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* SERVICES */}
       <section id="services" style={{ padding: "120px 5%", borderTop: "1px solid rgba(255,255,255,0.06)", background: "#16161A" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <Reveal>
@@ -556,17 +640,15 @@ export default function Portfolio() {
                 <h2 className="hero-title" style={{ fontSize: "clamp(32px, 3.5vw, 48px)", color: "#FAFAF9" }}>What I build for you</h2>
               </div>
               <p style={{ maxWidth: 320, fontSize: 15, color: "#71706A", lineHeight: 1.7, fontWeight: 300 }}>
-                Each engagement is scoped around outcomes, not hours. I measure success by what your business can do after.
+                Each engagement is scoped around concrete technical outcomes. I measure project success by what your business can do after.
               </p>
             </div>
           </Reveal>
 
-          {/* Featured Web Dev card */}
           <Reveal delay={80}>
             <WebDevCard s={SERVICES.find(s => s.featured)} />
           </Reveal>
 
-          {/* Divider with label */}
           <Reveal delay={120}>
             <div style={{ display: "flex", alignItems: "center", gap: 16, margin: "40px 0 32px" }}>
               <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.07)" }} />
@@ -575,7 +657,6 @@ export default function Portfolio() {
             </div>
           </Reveal>
 
-          {/* Non-featured services tab layout */}
           <Reveal delay={160}>
             <div className="services-tabs-layout">
               <div>
@@ -601,7 +682,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* PROJECTS */}
       <section id="work" style={{ padding: "120px 5%", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <Reveal>
@@ -673,7 +753,100 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* TRUST BAR */}
+      <section id="reviews" style={{ padding: "120px 5%", background: "#16161A", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "20px" }}>
+              <div>
+                <div style={{ fontSize: 12, color: "#378ADD", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16 }}>Testimonials</div>
+                <h2 className="hero-title" style={{ fontSize: "clamp(32px, 3.5vw, 48px)", color: "#FAFAF9" }}>Customer Reviews</h2>
+              </div>
+              <button className="btn-outline" style={{ padding: "10px 24px", fontSize: 13 }} onClick={() => setReviewModalOpen(true)}>
+                + Leave a Review
+              </button>
+            </div>
+          </Reveal>
+
+          <Reveal delay={100}>
+            <div className="reviews-grid">
+              {reviews.map((r, idx) => (
+                <div key={idx} className="review-card">
+                  <div>
+                    <div style={{ display: "flex", color: "#F59E0B", gap: 4, marginBottom: 16, fontSize: "16px" }}>
+                      {"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}
+                    </div>
+                    <p style={{ fontSize: 15, color: "#A1A09A", lineHeight: 1.7, fontWeight: 300, marginBottom: 24, fontStyle: "italic" }}>
+                      "{r.text}"
+                    </p>
+                  </div>
+                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: "#FAFAF9" }}>{r.name}</div>
+                      <div style={{ fontSize: 12, color: "#71706A", marginTop: 2 }}>{r.company}</div>
+                    </div>
+                    <div style={{ fontSize: 11, color: "#555550" }}>{r.date}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {reviewModalOpen && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(9,9,11,0.85)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 20 }}>
+          <div style={{ background: "#121214", border: "1px solid rgba(255,255,255,0.1)", width: "100%", maxWidth: "540px", padding: 40, position: "relative" }}>
+            <button style={{ position: "absolute", top: 20, right: 20, background: "transparent", border: "none", color: "#71706A", fontSize: 20, cursor: "pointer" }} onClick={() => setReviewModalOpen(false)}>✕</button>
+            <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 24, fontWeight: 700, color: "#FAFAF9", marginBottom: 8 }}>Write a Review</h3>
+            <p style={{ fontSize: 13, color: "#71706A", marginBottom: 24 }}>Provide your genuine evaluation. A valid email format is verified against testing burner setups.</p>
+            
+            {reviewError && (
+              <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", color: "#EF4444", padding: "12px 16px", fontSize: 13, marginBottom: 16 }}>
+                {reviewError}
+              </div>
+            )}
+
+            <form onSubmit={handleReviewSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div className="form-row">
+                <div>
+                  <label style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 8 }}>Full Name</label>
+                  <input className="input-field" type="text" required placeholder="Alex Johnson" value={newReview.name} onChange={e => setNewReview({ ...newReview, name: e.target.value })} />
+                </div>
+                <div>
+                  <label style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 8 }}>Company / Role</label>
+                  <input className="input-field" type="text" required placeholder="Tech Corp / CEO" value={newReview.company} onChange={e => setNewReview({ ...newReview, company: e.target.value })} />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 8 }}>Email Address</label>
+                <input className="input-field" type="email" required placeholder="alex@company.com" value={newReview.email} onChange={e => setNewReview({ ...newReview, email: e.target.value })} />
+              </div>
+
+              <div>
+                <label style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 8 }}>Rating</label>
+                <select className="input-field" value={newReview.rating} onChange={e => setNewReview({ ...newReview, rating: parseInt(e.target.value) })} style={{ cursor: "pointer" }}>
+                  <option value={5}>★★★★★ (5/5 Stars)</option>
+                  <option value={4}>★★★★☆ (4/5 Stars)</option>
+                  <option value={3}>★★★☆☆ (3/5 Stars)</option>
+                  <option value={2}>★★☆☆☆ (2/5 Stars)</option>
+                  <option value={1}>★☆☆☆☆ (1/5 Stars)</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ fontSize: 11, color: "#71706A", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 8 }}>Review Content</label>
+                <textarea className="input-field" required rows={4} placeholder="How was your experience working together?" value={newReview.text} onChange={e => setNewReview({ ...newReview, text: e.target.value })} style={{ resize: "none" }} />
+              </div>
+
+              <button type="submit" className="btn-primary" style={{ width: "100%", marginTop: 8 }}>
+                Submit Verified Review
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
       <section style={{ padding: "60px 5%", background: "#0D0D10", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div className="trust-grid">
@@ -694,7 +867,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* CONTACT */}
       <section id="contact" style={{ padding: "120px 5%", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }} className="contact-grid">
           <Reveal>
@@ -703,7 +875,7 @@ export default function Portfolio() {
               Let's build something<br />
               <span style={{ color: "#378ADD" }}>extraordinary</span>
             </h2>
-            <p style={{ fontSize: 16, color: "#A1A09A", lineHeight: 1.8, marginBottom: 48, fontWeight: 300 }}>
+            <p style={{ fontSize: 16, color: "#A1A09A", lineHeight: 1.8, marginBottom: 32, fontWeight: 300 }}>
               Whether you need a production RAG system, an autonomous agent workflow, or a full-stack AI application — I'm ready to scope it, build it, and ship it.
             </p>
 
@@ -718,6 +890,36 @@ export default function Portfolio() {
                   <a href={href} target="_blank" rel="noopener noreferrer" className="link-arrow" style={{ wordBreak: "break-all" }}>{value} <span>↗</span></a>
                 </div>
               ))}
+            </div>
+
+            <div className="location-container">
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span style={{ fontSize: "16px" }}>📍</span>
+                <div style={{ fontSize: 11, color: "#378ADD", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>HQ Operations Base</div>
+              </div>
+              <div style={{ fontSize: 16, fontWeight: 600, color: "#FAFAF9" }}>Keyvora Solutions, Sainthamaruthu, Ampara, Sri Lanka</div>
+              
+              <div className="map-wrapper">
+                <img 
+                  className="map-bg-img" 
+                  src="https://maps.app.goo.gl/PnLANutaipG7ELLHA" 
+                  alt="Sainthamaruthu, Ampara, Sri Lanka Location Map Overview" 
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+                <a 
+                  href="https://maps.app.goo.gl/PnLANutaipG7ELLHA" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="map-overlay-btn"
+                >
+                  <span style={{ background: "rgba(9,9,11,0.85)", border: "1px solid rgba(255,255,255,0.15)", padding: "10px 18px", fontSize: "12px", fontWeight: "600", letterSpacing: "0.04em", color: "#FAFAF9" }}>
+                    🗺️ View Business Profile & Reviews on Maps
+                  </span>
+                </a>
+              </div>
+              <div style={{ fontSize: 12, color: "#71706A", marginTop: -4 }}>Distributed execution framework serving clients globally. Open 8:00 AM.</div>
             </div>
           </Reveal>
     
@@ -768,7 +970,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer style={{ padding: "40px 5%", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="footer-container">
           <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 16 }}>
