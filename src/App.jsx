@@ -128,7 +128,9 @@ const PROJECTS = [
 ];
 
 // Point directly to your active local loopback runtime address
-const BACKEND_API_URL = "http://127.0.0.1:8000";
+const BACKEND_API_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://127.0.0.1:8000"
+    : "https://portfoliobackend-production-b3b0.up.railway.app";
 
 function useScrollReveal() {
   const ref = useRef(null);
@@ -890,37 +892,7 @@ export default function Portfolio() {
                   <a href={href} target="_blank" rel="noopener noreferrer" className="link-arrow" style={{ wordBreak: "break-all" }}>{value} <span>↗</span></a>
                 </div>
               ))}
-            </div>
-
-            <div className="location-container">
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontSize: "16px" }}>📍</span>
-                <div style={{ fontSize: 11, color: "#378ADD", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>HQ Operations Base</div>
-              </div>
-              <div style={{ fontSize: 16, fontWeight: 600, color: "#FAFAF9" }}>Keyvora Solutions, Sainthamaruthu, Ampara, Sri Lanka</div>
-              
-              <div className="map-wrapper">
-                <img 
-                  className="map-bg-img" 
-                  src="https://maps.app.goo.gl/PnLANutaipG7ELLHA" 
-                  alt="Sainthamaruthu, Ampara, Sri Lanka Location Map Overview" 
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                  }}
-                />
-                <a 
-                  href="https://maps.app.goo.gl/PnLANutaipG7ELLHA" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="map-overlay-btn"
-                >
-                  <span style={{ background: "rgba(9,9,11,0.85)", border: "1px solid rgba(255,255,255,0.15)", padding: "10px 18px", fontSize: "12px", fontWeight: "600", letterSpacing: "0.04em", color: "#FAFAF9" }}>
-                    🗺️ View Business Profile & Reviews on Maps
-                  </span>
-                </a>
-              </div>
-              <div style={{ fontSize: 12, color: "#71706A", marginTop: -4 }}>Distributed execution framework serving clients globally. Open 8:00 AM.</div>
-            </div>
+            </div>            
           </Reveal>
     
           <Reveal delay={150}>
